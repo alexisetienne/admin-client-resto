@@ -1,48 +1,53 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
-import { userActions } from '../_actions';
+import {Grid, IconButton, Stack} from "@mui/material";
+import DragAndDrop from "./dragAndDrop/DragAndDrop";
+import {orderActions} from "../_actions/order.actions";
+import {itemActions} from "../_actions/item.actions";
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+import {useHistory} from "react-router-dom";
+import {userActions} from "../_actions";
 
 function HomePage() {
+    const orders = useSelector(state => state.order.orders);
+    const items = useSelector(state => state.items);
     const users = useSelector(state => state.users);
     const user = useSelector(state => state.authentication.user);
+    const history = useHistory();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(userActions.getAll());
-    }, []);
+        dispatch(orderActions.getAll());
+    }, [])
 
-    function handleDeleteUser(id) {
-        dispatch(userActions.delete(id));
+    useEffect(() => {
+        dispatch(itemActions.getAll());
+    }, [])
+
+    if (!orders) return null;
+    if (items.loading == true) return null;
+
+    function logout() {
+        dispatch(userActions.logout());
+        history.push('/login');
     }
 
+
     return (
-        <div className="col-lg-8 offset-lg-2">
-            <h1>Hi {user.firstName}!</h1>
-            <p>You're logged in with React Hooks!!</p>
-            <h3>All registered users:</h3>
-            {users.loading && <em>Loading users...</em>}
-            {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-            {users.items &&
-                <ul>
-                    {users.items.map((user, index) =>
-                        <li key={user.id}>
-                            {user.firstName + ' ' + user.lastName}
-                            {
-                                user.deleting ? <em> - Deleting...</em>
-                                : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                : <span> - <a onClick={() => handleDeleteUser(user.id)} className="text-primary">Delete</a></span>
-                            }
-                        </li>
-                    )}
-                </ul>
-            }
-            <p>
-                <Link to="/login">Logout</Link>
-            </p>
-        </div>
-    );
+        <>
+            <Stack>
+                <Grid sx={{display: 'flex', justifyContent: 'space-between'}}>
+                    <IconButton onClick={() => logout()} size='large' color='info'><LogoutIcon/></IconButton>
+                    <IconButton onClick={() => history.push('/items')} size='large' color='info'><SettingsIcon/></IconButton>
+                </Grid>
+                <DragAndDrop orders={orders} itemsFromDb={items.items}/>
+            </Stack>
+        </>
+    )
 }
 
-export { HomePage };
+
+export {HomePage};

@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 function PrivateRoute({ component: Component, roles, ...rest }) {
     return (
         <Route {...rest} render={props => {
+            console.log('getLocal2',localStorage.getItem('user'))
             if (!localStorage.getItem('user')) {
                 // not logged in so redirect to login page with the return url
                 return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />

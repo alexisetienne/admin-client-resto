@@ -6,20 +6,17 @@ import { history } from '../_helpers';
 export const userActions = {
     login,
     logout,
-    register,
-    getAll,
-    delete: _delete
 };
 
-function login(username, password, from) {
+function login(data, from) {
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(request({ data }));
 
-        userService.login(username, password)
+        userService.login(data)
             .then(
-                user => { 
+                user => {
                     dispatch(success(user));
-                    history.push(from);
+                    history.push('/menu');
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -44,7 +41,7 @@ function register(user) {
 
         userService.register(user)
             .then(
-                user => { 
+                user => {
                     dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Registration successful'));

@@ -9,7 +9,8 @@ module.exports = {
         rules: [
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
+                exclude: /node_modules/,
             }
         ]
     },
@@ -22,7 +23,7 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://localhost:4000'
+            apiUrl: 'http://localhost:3000'
         })
     }
 }

@@ -6,24 +6,23 @@ export const userService = {
     logout,
     register,
     getAll,
-    getById,
     update,
     delete: _delete
 };
 
-function login(username, password) {
+function login(data) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ login: data.login, password: data.password })
     };
 
-    return fetch(`${config.apiUrl}/users/authenticate`, requestOptions)
+    return fetch(`${config.apiUrl}/api/auth/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
-
+            console.log('getLocalStorage',localStorage.getItem('user'))
             return user;
         });
 }
