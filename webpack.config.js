@@ -2,6 +2,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
+    entry: './src/index.jsx',
     resolve: {
         extensions: ['.js', '.jsx']
     },
