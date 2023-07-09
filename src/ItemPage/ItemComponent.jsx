@@ -11,13 +11,13 @@ import {Controller, useForm} from 'react-hook-form';
 function ItemComponent({item, onDelete}) {
 
     const categories = [
-        'starter',
-        'plats',
-        'desserts',
-        'pizza',
-        'vin',
-        'bieres',
-        'boissons',
+        'Entrées',
+        'Plats',
+        'Desserts',
+        'Pizza',
+        'Vin',
+        'Bieres',
+        'Boissons',
     ];
     const dispatch = useDispatch();
     const location = useLocation();

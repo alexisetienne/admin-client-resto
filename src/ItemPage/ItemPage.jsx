@@ -15,13 +15,13 @@ function ItemPage() {
     const dispatch = useDispatch();
     const [filteredItems, setFilteredItems] = useState(items);
     const categories = [
-        'starter',
-        'plats',
-        'desserts',
-        'pizza',
-        'vin',
-        'bieres',
-        'boissons',
+        'Entrées',
+        'Plats',
+        'Desserts',
+        'Pizza',
+        'Vin',
+        'Bieres',
+        'Boissons',
     ];
     const handleChange = (event) => {
         setCategory(event.target.value);

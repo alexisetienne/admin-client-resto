@@ -33,7 +33,7 @@ function create(order) {
     function failure(error) { return { type: orderConstants.CREATE_FAILURE, error } }
 }
 
-function updateStatus(id, order) {
+function updateStatus(id, order, callback = null) {
     return dispatch => {
         dispatch(request(order));
 
@@ -42,6 +42,7 @@ function updateStatus(id, order) {
                 order => {
                     dispatch(success());
                     dispatch(alertActions.success('order créé avec succés'));
+                    if(callback && order.status == 'in progress') callback();
                 },
                 error => {
                     dispatch(failure(error.toString()));

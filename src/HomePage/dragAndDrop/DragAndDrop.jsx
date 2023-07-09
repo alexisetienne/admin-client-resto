@@ -10,6 +10,7 @@ import {useDispatch} from "react-redux";
 import {orderActions} from "../../_actions/order.actions";
 
 const DragAndDrop = ({orders, itemsFromDb}) => {
+
     const dispatch = useDispatch();
     const itemsNormal = {
         available: [],
@@ -18,7 +19,7 @@ const DragAndDrop = ({orders, itemsFromDb}) => {
     };
 
     orders.forEach((order) => {
-        if(order.status === 'in progress') itemsNormal.available.push(order);
+        if(order.status === 'in progress' || order.status == 'new') itemsNormal.available.push(order);
         else {
             itemsNormal.assigned.push(order);
         }
@@ -77,7 +78,7 @@ const DragAndDrop = ({orders, itemsFromDb}) => {
     return (
         <>
             <DragDropContext onDragEnd={onDragEnd}>
-                <div style={{display: 'flex', padding: '12px'}}>
+                <div style={{display: 'flex', padding: '12px', justifyContent: 'center'}}>
                     <ListDragAndDrop title="Commandes en preparations" onDragEnd={onDragEnd} name="available">
                         {items.available.map((item, index) => (
                             <Draggable key={item.id} draggableId={item.id + ""} index={index}>
@@ -107,7 +108,7 @@ const DragAndDrop = ({orders, itemsFromDb}) => {
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
                                     >
-                                        <Card deleteOrder={deleteOrder} data={item} items={itemsFromDb} />
+                                        <Card key={item.id} deleteOrder={deleteOrder} data={item} items={itemsFromDb} />
                                     </div>
                                 )}
                             </Draggable>

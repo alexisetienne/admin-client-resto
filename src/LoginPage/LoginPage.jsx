@@ -21,7 +21,6 @@ function LoginPage() {
 
     function onSubmit(data) {
         // get return url from location state or default to home page
-        console.log(data)
         const {from} = {from: {pathname: "/"}};
         dispatch(userActions.login(data, from));
     }
